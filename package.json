@@ -1,0 +1,25 @@
+{
+  "name": "blueleaks-process",
+  "private": true,
+  "version": "0.0.0",
+  "description": "This will help you process #blueleaks. It doesn't include any of the data, just code to process it.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/konsumer/blueleaks-process.git"
+  },
+  "keywords": [
+    "blueleaks",
+    "ddos"
+  ],
+  "author": "David Konsumer <konsumer@jetboystudio.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/konsumer/blueleaks-process/issues"
+  },
+  "homepage": "https://github.com/konsumer/blueleaks-process#readme",
+  "dependencies": {
+    "glob": "^7.1.6",
+    "pdf2json": "^1.2.0",
+    "tesseract.js": "^2.1.1"
+  }
+}
