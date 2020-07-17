@@ -1,1 +1,31 @@
 #!/usr/bin/env node
+
+const processDir = async (input, output) => {}
+
+module.exports = { processDir }
+
+if (require.main === module) {
+  const { input, output } = require('yargs')
+    .usage('Usage: $0 -i [input] -o [output]')
+
+    .help('h').alias('h', 'help')
+    .alias('v', 'version')
+
+    .option('input', {
+      alias: 'i',
+      type: 'string',
+      description: 'Input directory',
+      default: './output'
+    })
+    .option('output', {
+      alias: 'o',
+      type: 'string',
+      description: 'Output sqlite file',
+      default: './pii.sqlite'
+    })
+
+    .example('$0', 'Find PII in ./output and output to ./pii.sqlite')
+    .argv
+
+  processDir(input, output)
+}

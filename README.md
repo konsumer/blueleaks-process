@@ -31,4 +31,16 @@ Options:
 
 Examples:
   ./extract_text  Find text in ./blueleaks and output to ./output
+
+
+Usage: ./extract_pii -i [input] -o [output]
+
+Options:
+  -h, --help     Show help                                             [boolean]
+  --input, -i    Input directory                  [string] [default: "./output"]
+  --output, -o   Output sqlite file           [string] [default: "./pii.sqlite"]
+  -v, --version  Show version number                                   [boolean]
+
+Examples:
+  ./extract_pii  Find PII in ./output and output to ./pii.sqlite
 ```
