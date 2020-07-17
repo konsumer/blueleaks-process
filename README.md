@@ -4,6 +4,8 @@ This will help you process [#blueleaks](magnet:?xt=urn:btih:8cf92b7cd3f022fa5478
 
 You will need nodejs installed.
 
+> **Unrelated sidenote**: Github doesn't render `magnet` links when it parses markdown, but it;s still in the source.
+
 ## install
 
 ```sh
