@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+
+const mkdirp = require('mkdirp')
+const { dirname } = require('path')
+const { writeFile, copyFile } = require('fs').promises
+const { promisify } = require('util')
+const glob = promisify(require('glob'))
+const pdfText = promisify(require('pdf-text'))
+const tesseract = require('tesseract.js')
+
+const extractImageText = async filename => {
+  const worker = tesseract.createWorker()
+  await worker.load()
+  await worker.loadLanguage('eng')
+  await worker.initialize('eng')
+  const { data: { text } } = await worker.recognize(filename)
+  await worker.terminate()
+  return text
+}
+
+const extractPdfText = async filename => {
+  const content = await pdfText(filename)
+  return content.join('\n').trim()
+}
+
+const processDir = async (input, output) => {
+  for (const dir of await glob(`${input}/*/`)) {
+    console.log(dir)
+    for (const file of await glob(`${dir}/**/*.+(jpg|jpeg|png|gif)`, { nodir: true })) {
+      const content = await extractImageText(file)
+      if (content && content !== '') {
+        const outFile = `${output}/${file.replace(input, '')}.txt`
+        console.log(`  ${outFile}`)
+        await mkdirp(dirname(outFile))
+        await writeFile(outFile, content)
+      }
+    }
+    for (const file of await glob(`${dir}/**/*.pdf`, { nodir: true })) {
+      const content = await extractPdfText(file)
+      if (content && content !== '') {
+        const outFile = `${output}/${file.replace(input, '')}.txt`
+        console.log(`  ${outFile}`)
+        await mkdirp(dirname(outFile))
+        await writeFile(outFile, content)
+      }
+    }
+    for (const file of await glob(`${dir}/**/*.+(vb|aspx|asp|csv|txt|htm|html)`, { nodir: true })) {
+      const outFile = `${output}/${file.replace(input, '')}`
+      await copyFile(file, outFile)
+    }
+  }
+}
+
+module.exports = { extractPdfText, extractImageText, processDir }
+
+if (require.main === module) {
+  const { input, output } = require('yargs')
+    .usage('Usage: $0 -i [input] -o [output]')
+
+    .help('h').alias('h', 'help')
+    .alias('v', 'version')
+
+    .option('input', {
+      alias: 'i',
+      type: 'string',
+      description: 'Input directory',
+      default: './blueleaks'
+    })
+    .option('output', {
+      alias: 'o',
+      type: 'string',
+      description: 'Output directory',
+      default: './output'
+    })
+
+    .example('$0', 'Find text in ./blueleaks and output to ./output')
+    .argv
+
+  processDir(input, output)
+}
