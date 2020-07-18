@@ -8,8 +8,8 @@ publish: build ## publish docker container
 	docker tag blueleaks konsumer/blueleaks
 	docker push konsumer/blueleaks
 
-text: build ## extract text from files in blueleaks dir
+text: ## extract text from files in blueleaks dir
 	docker run -v ${PWD}/blueleaks:/usr/app/input -v ${PWD}/output:/usr/app/output -it --rm blueleaks text
 
-pii: build ## extract PII from files in output dir into sqlite
+pii: ## extract PII from files in output dir into sqlite
 	docker run -v ${PWD}/output:/usr/app/output -it --rm blueleaks pii
