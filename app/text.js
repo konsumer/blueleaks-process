@@ -58,7 +58,7 @@ const run = async () => {
   }
 
   // copy csvs, server-side code, data-files, and text files
-  for (const file of await glob(`${INPUT}/**/*.+(txt|csv|vb|asp|aspx|json|xml|)`, { nodir: true, nocase: true })) {
+  for (const file of await glob(`${INPUT}/**/*.+(txt|csv|vb|asp|aspx|json|xml)`, { nodir: true, nocase: true })) {
     const newFile = file.replace(INPUT, OUTPUT)
     try {
       console.log(newFile.replace(OUTPUT, ''))
