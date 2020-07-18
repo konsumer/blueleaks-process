@@ -2,45 +2,27 @@
 
 This will help you process [#blueleaks](magnet:?xt=urn:btih:8cf92b7cd3f022fa5478b84963e89c1dd0af090f&dn=BlueLeaks&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2920%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce). It doesn't include any of the data, just code to process it.
 
-You will need nodejs installed.
+You will need docker installed, and `make` makes it easier to use.
+
+It will extract text from images, PDFs, copy CSVs & code, and text, and convert excel files to CSV.
+
+The idea is to make text files out of everything for searching or whatever.
 
 > **Unrelated sidenote**: Github doesn't render `magnet` links when it parses markdown, but it's still in the source.
-
-## install
-
-```sh
-git clone -–depth 1 https://github.com/konsumer/blueleaks-process.git
-cd blueleaks-process
-npm i
-```
 
 ## usage
 
 * Download [blueleaks](magnet:?xt=urn:btih:8cf92b7cd3f022fa5478b84963e89c1dd0af090f&dn=BlueLeaks&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2920%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce) to `blueleaks/` in repo dir, and extract all the zips you want to process.
-* Run `./extract_text` to extract a bunch of text-files to `output/`
-* Run `./extract_pii` to extract personally identifiable information from text-files in `output/` to an sqlite database
+
+### make
+
+If you have docker installed, you only need the [Makefile](Makefile). Run `make` then one of these targets:
 
 ```
-Usage: ./extract_text -i [input] -o [output]
+help                           Show this help
+build                          build docker container
+publish                        publish docker container
 
-Options:
-  -h, --help     Show help                                          [boolean]
-  --input, -i    Input directory            [string] [default: "./blueleaks"]
-  --output, -o   Output directory              [string] [default: "./output"]
-  -v, --version  Show version number                                [boolean]
-
-Examples:
-  ./extract_text  Find text in ./blueleaks and output to ./output
-
-
-Usage: ./extract_pii -i [input] -o [output]
-
-Options:
-  -h, --help     Show help                                             [boolean]
-  --input, -i    Input directory                  [string] [default: "./output"]
-  --output, -o   Output sqlite file           [string] [default: "./pii.sqlite"]
-  -v, --version  Show version number                                   [boolean]
-
-Examples:
-  ./extract_pii  Find PII in ./output and output to ./pii.sqlite
+text                           extract text from files in blueleaks dir
+pii                            extract PII from files in output dir into sqlite
 ```

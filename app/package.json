@@ -1,0 +1,12 @@
+{
+  "name": "blueleaks",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": {
+    "glob": "^7.1.6",
+    "mkdirp": "^1.0.4",
+    "node-tesseract-ocr": "^2.0.0",
+    "pdf-to-text": "0.0.7",
+    "xlsx2csv-node": "^1.0.2"
+  }
+}
