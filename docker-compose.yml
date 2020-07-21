@@ -1,0 +1,35 @@
+version: "2.1"
+
+networks:
+  internal_network:
+
+services:
+  elasticsearch:
+    image: elasticsearch:7.8.0
+    networks:
+      - internal_network
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - ${PWD}/data/elasticsearch:/usr/share/elasticsearch/data
+  
+  kibana:
+    image: kibana:7.8.0
+    networks:
+      - internal_network
+    ports:
+      - 5601:5601
+  
+  fscrawler:
+    image: toto1310/fscrawler:2.7-SNAPSHOT
+    volumes:
+      - ${PWD}/config/fscrawler:/root/.fscrawler
+      - ${PWD}/BlueLeaks:/tmp/es
+    networks: 
+      - internal_network
+    command: fscrawler blueleaks
+    depends_on:
+      - elasticsearch
