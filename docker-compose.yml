@@ -6,6 +6,7 @@ networks:
 services:
   elasticsearch:
     image: elasticsearch:7.8.0
+    restart: unless-stopped
     networks:
       - internal_network
     ports:
@@ -14,10 +15,11 @@ services:
     environment:
       - discovery.type=single-node
     volumes:
-      - ${PWD}/data/elasticsearch:/usr/share/elasticsearch/data
+      - ${PWD}/data:/usr/share/elasticsearch/data
   
   kibana:
     image: kibana:7.8.0
+    restart: unless-stopped
     networks:
       - internal_network
     ports:
@@ -25,6 +27,7 @@ services:
   
   fscrawler:
     image: toto1310/fscrawler:2.7-SNAPSHOT
+    restart: unless-stopped
     volumes:
       - ${PWD}/config/fscrawler:/root/.fscrawler
       - ${PWD}/BlueLeaks:/tmp/es
