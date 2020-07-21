@@ -18,7 +18,7 @@ The idea is to make text files out of everything for searching or whatever.
 * Wait a really long time (you can see what it's doing with `docker-compose logs -f`)
 * Explore the data in [kibana](http://localhost:5601/)
 
-Your data will be created in `data/elasticsearch`
+Your data will be created in `data/`
 
 ### data analysis
 
