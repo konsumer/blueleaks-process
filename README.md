@@ -12,7 +12,7 @@ The idea is to make text files out of everything for searching or whatever.
 
 ## usage
 
-* Download [blueleaks](magnet:?xt=urn:btih:8cf92b7cd3f022fa5478b84963e89c1dd0af090f&dn=BlueLeaks&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2920%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce) to `BlueLeaks/` in repo dir. Unzip any files you want to index.
+* Download [blueleaks](magnet:?xt=urn:btih:8cf92b7cd3f022fa5478b84963e89c1dd0af090f&dn=BlueLeaks&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2920%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce) to `BlueLeaks/` in repo dir.
 * Run `mkdir -p data/nodes` so it gets created with correct permissions.
 * Run `docker-compose up -d`
 * Wait a really long time (you can see what it's doing with `docker-compose logs -f`)
@@ -22,4 +22,19 @@ Your data will be created in `data/`
 
 ### data analysis
 
-Eventually I will make some sort of frontend for it, and create some good examples here, but for now, just play around with it in [kibana](http://localhost:5601/).
+Eventually I will make some sort of frontend for it, and create some good examples here, but for now, just play around with it in [kibana query console](http://localhost:5601/app/kibana#/dev_tools/console).
+
+To find everything in the current `blueleaks`, do this:
+
+```
+GET _search
+{
+ "query": {
+        "match" : {
+            "_index" : {
+                "query" : "blueleaks"
+            }
+        }
+    }
+}
+```
