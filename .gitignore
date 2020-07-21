@@ -1,3 +1,4 @@
 .DS_Store
 BlueLeaks
 data
+config/fscrawler/blueleaks/_status.json
