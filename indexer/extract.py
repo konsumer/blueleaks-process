@@ -57,5 +57,5 @@ for z in glob('%s/*.zip' % (INPUT)):
 						'filename': file.filename,
 						'extension': ext
 					}
-					res = es.index(index=COLLECTION, id="%s:%s" % (zipFilename, file.filename), body=doc, pipeline="attachment")
+					res = es.index(index=COLLECTION, id="%s:%s" % (zipFilename, file.filename), body=doc, pipeline="attachment", timeout="60s")
 					print("  %s: %s" % (file.filename, res['result']))
