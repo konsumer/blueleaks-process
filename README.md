@@ -32,6 +32,30 @@ GET /blueleaks/_search
 }
 ```
 
+Get all the PDFs that have the word "dispatch" in them.
+
+```json
+GET /blueleaks/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "attachment.content_type": "application/pdf"
+          }
+        },
+        {
+          "match": {
+            "attachment.content": "dispatch"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
 Eventually, I will make some sort of frontend for it, and create some good example queries here, but for now, just play around with it in [kibana query console](http://localhost:5601/app/kibana#/dev_tools/console).
 
 
