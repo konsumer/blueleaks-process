@@ -13,7 +13,6 @@ It will extract text from images, PDFs, text-files and images.
 * Download [blueleaks](magnet:?xt=urn:btih:8cf92b7cd3f022fa5478b84963e89c1dd0af090f&dn=BlueLeaks&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2920%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce) to `BlueLeaks/` in repo dir. It should be a bunch of zip-files.
 * Run `mkdir -p data/nodes` so it gets created with correct permissions.
 * Run `docker-compose up -d`
-* Create an index, as described [here](https://fscrawler.readthedocs.io/en/latest/user/tutorial.html#create-index-pattern)
 * Wait a really long time (you can see what it's doing with `docker-compose logs -f`)
 * Explore the data in [kibana](http://localhost:5601/)
 
