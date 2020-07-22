@@ -41,7 +41,7 @@ Eventually, I will make some sort of frontend for it, and create some good examp
 You can copy the `indexer-blueleaks` section from docker-compose to index another leak in the same fashion, using all the same services for a cross-leak search:
 
 ```yml
-  indexer-blueleaks:
+  indexer-someotherleak:
     build: ./indexer
     environment:
       - COLLECTION=someotherleak
