@@ -10,9 +10,10 @@ It will extract text from images, PDFs, text-files and images.
 
 ## usage
 
-* Download [blueleaks](magnet:?xt=urn:btih:8cf92b7cd3f022fa5478b84963e89c1dd0af090f&dn=BlueLeaks&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2920%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce) to `BlueLeaks/` in repo dir.
+* Download [blueleaks](magnet:?xt=urn:btih:8cf92b7cd3f022fa5478b84963e89c1dd0af090f&dn=BlueLeaks&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2F9.rarbg.to%3A2920%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce) to `BlueLeaks/` in repo dir. It should be a bunch of zip-files.
 * Run `mkdir -p data/nodes` so it gets created with correct permissions.
 * Run `docker-compose up -d`
+* Create an index, as described [here](https://fscrawler.readthedocs.io/en/latest/user/tutorial.html#create-index-pattern)
 * Wait a really long time (you can see what it's doing with `docker-compose logs -f`)
 * Explore the data in [kibana](http://localhost:5601/)
 
@@ -20,36 +21,35 @@ Your data will be created in `data/`
 
 ### data analysis
 
-Eventually I will make some sort of frontend for it, and create some good example queries here, but for now, just play around with it in [kibana query console](http://localhost:5601/app/kibana#/dev_tools/console).
-
 To find everything in the current `blueleaks`, do this:
 
 ```json
+GET /blueleaks/_search
 {
- "query": {
-        "match" : {
-            "_index" : {
-                "query" : "blueleaks"
-            }
-        }
-    }
+  "query": { "match_all": {} },
+  "sort": [
+    { "attachment.date": "asc" }
+  ]
 }
 ```
 
+Eventually, I will make some sort of frontend for it, and create some good example queries here, but for now, just play around with it in [kibana query console](http://localhost:5601/app/kibana#/dev_tools/console).
+
+
 ### adding more leaks
 
-You can copy the `fscrawler` section from docker-compose to index another leak in the same fashion:
+You can copy the `indexer-blueleaks` section from docker-compose to index another leak in the same fashion, using all the same services for a cross-leak search:
 
 ```yml
-  fscrawler-anotherleak:
-    image: toto1310/fscrawler:2.7-SNAPSHOT
-    restart: unless-stopped
+  indexer-blueleaks:
+    build: ./indexer
+    environment:
+      - COLLECTION=someotherleak
+      - INPUT=/data
+      - ELASTICSEARCH=http://elasticsearch:9200
     volumes:
-      - ${PWD}/config/fscrawler:/root/.fscrawler
-      - ${PWD}/anotherleak:/tmp/es
+      - ${PWD}/SomeOtherLeak:/data
     networks: 
       - internal_network
-    command: fscrawler anotherleak
-    depends_on:
-      - elasticsearch
+
 ```
